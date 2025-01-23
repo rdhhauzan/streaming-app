@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://neondb_owner:dOSyNQAJ7Rq5@ep-calm-forest-a1vw3qbb-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+}
+
+model User {
+  id           Int       @default(autoincrement()) @id
+  username     String    @unique
+  password     String
+
+  @@map("users")
+}
+
+model Video {
+  id             Int        @default(autoincrement()) @id
+  name           String
+  path           String
+  created_by     Int
+  upload_at      DateTime
+
+  @@map("videos")
+}
+
