@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
@@ -20,20 +19,19 @@ export class AuthService {
     })
 
     if (!findUserByUsername) {
-      throw new Error("User not found")
+      return { status: 400, message: 'User not found' }
     }
 
     if (findUserByUsername) {
       const comparePassword = await bcrypt.compare(password, findUserByUsername.password)
-
       if (comparePassword) {
         payload = {
           username: findUserByUsername.username,
           id: findUserByUsername.id,
         }
-
+      } else {
+        return { status: 400, message: 'User not found' }
       }
-
     }
 
     return {
